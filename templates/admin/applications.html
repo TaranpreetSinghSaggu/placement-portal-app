@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Applications - Admin Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('admin_dash') }}">
+                <i class="fas fa-user-shield"></i> Admin Portal
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_companies') }}">
+                            <i class="fas fa-building"></i> Companies
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_students') }}">
+                            <i class="fas fa-user-graduate"></i> Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_drives') }}">
+                            <i class="fas fa-briefcase"></i> Drives
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('admin_applications') }}">
+                            <i class="fas fa-file-alt"></i> Applications
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('logout') }}" class="btn btn-outline-danger btn-sm ms-2">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="applications-container">
+        <div class="container">
+            <div class="header-card">
+                <h2><i class="fas fa-file-alt"></i> All Applications</h2>
+                <p class="text-muted mb-0">Monitor all student applications across all placement drives</p>
+            </div>
+
+            {% if applications %}
+            <div class="table-card">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Company</th>
+                                <th>Job Title</th>
+                                <th>Applied On</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in applications %}
+                            <tr>
+                                <td><i class="fas fa-user"></i> {{ app.student.name }}</td>
+                                <td><i class="fas fa-building"></i> {{ app.drive.company.name }}</td>
+                                <td>{{ app.drive.job_title }}</td>
+                                <td>{{ app.application_date.strftime('%B %d, %Y') }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ app.status.lower() }}">
+                                        {{ app.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% else %}
+            <div class="header-card text-center">
+                <i class="fas fa-inbox" style="font-size: 3rem; color: #6366F1; opacity: 0.3;"></i>
+                <h5 class="mt-3">No Applications Yet</h5>
+                <p class="text-muted">No students have applied to any placement drives yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white text-center">
+                    <h4>Register</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('register') }}">
+                        <div class="mb-3">
+                            <label for="user_type" class="form-label">Register As</label>
+                            <select class="form-select" id="user_type" name="user_type" required onchange="toggleFields()">
+                                <option value="">Select User Type</option>
+                                <option value="student">Student</option>
+                                <option value="company">Company</option>
+                            </select>
+                            <small class="text-muted">Note: Admin registration is not allowed</small>
+                        </div>
+                        
+                        <div id="student-fields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="student_name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="student_name" name="name">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="student_email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="student_email" name="email">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="contact" class="form-label">Contact Number</label>
+                                <input type="text" class="form-control" id="contact" name="contact">
+                            </div>
+                        </div>
+                        
+                        <div id="company-fields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="company_name" class="form-label">Company Name</label>
+                                <input type="text" class="form-control" id="company_name" name="comp_name">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="company_email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="company_email" name="comp_email">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="hr_contact" class="form-label">HR Contact Name</label>
+                                <input type="text" class="form-control" id="hr_contact" name="hr_contact">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="website" class="form-label">Website (Optional)</label>
+                                <input type="text" class="form-control" id="website" name="website">
+                            </div>
+                            
+                            <div class="alert alert-warning">
+                                <small>Note: Your account will be activated after admin approval.</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Register</button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleFields() {
+    var userType = document.getElementById('user_type').value;
+    var studentFields = document.getElementById('student-fields');
+    var companyFields = document.getElementById('company-fields');
+    
+    // Hide all fields first
+    studentFields.style.display = 'none';
+    companyFields.style.display = 'none';
+    
+    // Clear all input fields
+    studentFields.querySelectorAll('input').forEach(input => {
+        input.value = '';
+        input.removeAttribute('required');
+    });
+    companyFields.querySelectorAll('input').forEach(input => {
+        input.value = '';
+        input.removeAttribute('required');
+    });
+    
+    // Show and require fields based on selection
+    if (userType === 'student') {
+        studentFields.style.display = 'block';
+        document.getElementById('student_name').setAttribute('required', 'required');
+        document.getElementById('student_email').setAttribute('required', 'required');
+        document.getElementById('contact').setAttribute('required', 'required');
+    } else if (userType === 'company') {
+        companyFields.style.display = 'block';
+        document.getElementById('company_name').setAttribute('required', 'required');
+        document.getElementById('company_email').setAttribute('required', 'required');
+        document.getElementById('hr_contact').setAttribute('required', 'required');
+    }
+}
+</script>
+{% endblock %}

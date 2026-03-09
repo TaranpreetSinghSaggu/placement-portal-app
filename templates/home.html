@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Placement Portal{% endblock %}
+
+{% block content %}
+
+<section style="background: linear-gradient(135deg, #4338CA 0%, #6366F1 100%); padding: 90px 0 60px;">
+    <div class="container text-center text-white">
+        <h1 class="fw-bold mb-3" style="font-size: 2.8rem; letter-spacing: -0.5px;">
+            Empowering Careers, Connecting Talent
+        </h1>
+        <p class="lead mb-5" style="max-width: 600px; margin: 0 auto; opacity: 0.9;">
+            A unified campus recruitment platform bridging students, recruiters,
+            and the placement cell — all in one place.
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('student_register') }}" class="btn btn-light fw-semibold px-4 py-2" style="color: #4338CA;">
+                <i class="fas fa-user-graduate me-2"></i>Student Sign Up
+            </a>
+            <a href="{{ url_for('company_register') }}" class="btn btn-outline-light fw-semibold px-4 py-2">
+                <i class="fas fa-building me-2"></i>Register Company
+            </a>
+        </div>
+    </div>
+</section>
+
+<section style="background: #ffffff; padding: 0; margin-top: -36px; position: relative; z-index: 2;">
+    <div class="container">
+        <div class="row g-3 justify-content-center">
+            <div class="col-6 col-md-3">
+                <div class="text-center shadow-sm rounded-3 py-4 px-2" style="background:#fff; border-bottom: 3px solid #4338CA;">
+                    <div class="fw-bold" style="font-size: 2rem; color: #4338CA;">{{ stats.students }}</div>
+                    <small class="text-muted text-uppercase" style="letter-spacing:.5px; font-size:.75rem;">Students</small>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="text-center shadow-sm rounded-3 py-4 px-2" style="background:#fff; border-bottom: 3px solid #6366F1;">
+                    <div class="fw-bold" style="font-size: 2rem; color: #6366F1;">{{ stats.companies }}</div>
+                    <small class="text-muted text-uppercase" style="letter-spacing:.5px; font-size:.75rem;">Companies</small>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="text-center shadow-sm rounded-3 py-4 px-2" style="background:#fff; border-bottom: 3px solid #1F2937;">
+                    <div class="fw-bold" style="font-size: 2rem; color: #1F2937;">{{ stats.drives }}</div>
+                    <small class="text-muted text-uppercase" style="letter-spacing:.5px; font-size:.75rem;">Active Drives</small>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="text-center shadow-sm rounded-3 py-4 px-2" style="background:#fff; border-bottom: 3px solid #16a34a;">
+                    <div class="fw-bold" style="font-size: 2rem; color: #16a34a;">{{ stats.placed }}</div>
+                    <small class="text-muted text-uppercase" style="letter-spacing:.5px; font-size:.75rem;">Placed</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5" style="background: #F9FAFB;">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold" style="color: #1F2937;"><i class="fas fa-chart-bar me-2" style="color:#6366F1;"></i>Platform Analytics</h3>
+            <p class="text-muted">Real-time insights from the placement portal</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 14px;">
+                    <div class="card-body text-center p-4">
+                        <h6 class="fw-semibold mb-3" style="color:#1F2937;">Application Outcomes</h6>
+                        <canvas id="appStatusChart" height="260"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 14px;">
+                    <div class="card-body text-center p-4">
+                        <h6 class="fw-semibold mb-3" style="color:#1F2937;">Drive Approvals</h6>
+                        <canvas id="driveStatusChart" height="260"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100" style="border-radius: 14px;">
+                    <div class="card-body text-center p-4">
+                        <h6 class="fw-semibold mb-3" style="color:#1F2937;">Top Hiring Companies</h6>
+                        <canvas id="companyChart" height="260"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5" style="background: #F3F4F6;">
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm" style="border-radius: 14px; overflow: hidden;">
+                    <div class="card-header text-white text-center py-4 border-0" style="background: #4338CA;">
+                        <i class="fas fa-user-graduate fa-2x mb-2"></i>
+                        <h5 class="mb-0 fw-bold">For Students</h5>
+                    </div>
+                    <div class="card-body px-4 py-4" style="background: #ffffff;">
+                        <p class="text-muted mb-4" style="line-height: 1.7;">
+                            Discover curated placement drives tailored to your profile. Apply to top companies,
+                            track every application in real time, and take the next step in your career — all from one dashboard.
+                        </p>
+                        <ul class="list-unstyled mb-4" style="color: #374151;">
+                            <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: #4338CA;"></i>Browse approved job drives</li>
+                            <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: #4338CA;"></i>One-click application submission</li>
+                            <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: #4338CA;"></i>Live application status tracking</li>
+                        </ul>
+                        <a href="{{ url_for('student_login') }}" class="btn w-100 fw-semibold" style="background: #4338CA; color: #fff; border-radius: 8px;">
+                            <i class="fas fa-sign-in-alt me-2"></i>Student Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm" style="border-radius: 14px; overflow: hidden;">
+                    <div class="card-header text-white text-center py-4 border-0" style="background: #6366F1;">
+                        <i class="fas fa-building fa-2x mb-2"></i>
+                        <h5 class="mb-0 fw-bold">For Companies</h5>
+                    </div>
+                    <div class="card-body px-4 py-4" style="background: #ffffff;">
+                        <p class="text-muted mb-4" style="line-height: 1.7;">
+                            Access a pool of qualified campus talent. Post placement drives, define eligibility criteria,
+                            review applicants, and manage your hiring pipeline with precision and ease.
+                        </p>
+                        <ul class="list-unstyled mb-4" style="color: #374151;">
+                            <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: #6366F1;"></i>Post & manage placement drives</li>
+                            <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: #6366F1;"></i>Review and shortlist candidates</li>
+                            <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: #6366F1;"></i>Streamlined approval workflow</li>
+                        </ul>
+                        <a href="{{ url_for('company_login') }}" class="btn w-100 fw-semibold" style="background: #6366F1; color: #fff; border-radius: 8px;">
+                            <i class="fas fa-sign-in-alt me-2"></i>Company Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm" style="border-radius: 14px; overflow: hidden;">
+                    <div class="card-header text-white text-center py-4 border-0" style="background: #1F2937;">
+                        <i class="fas fa-user-shield fa-2x mb-2"></i>
+                        <h5 class="mb-0 fw-bold">For Admin</h5>
+                    </div>
+                    <div class="card-body px-4 py-4" style="background: #ffffff;">
+                        <p class="text-muted mb-4" style="line-height: 1.7;">
+                            Oversee the entire recruitment ecosystem from a single control panel. Approve companies,
+                            manage student accounts, monitor drives, and ensure a transparent placement process.
+                        </p>
+                        <ul class="list-unstyled mb-4" style="color: #374151;">
+                            <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: #1F2937;"></i>Approve & manage companies</li>
+                            <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: #1F2937;"></i>Monitor all placement drives</li>
+                            <li class="mb-2"><i class="fas fa-check-circle me-2" style="color: #1F2937;"></i>Full application oversight</li>
+                        </ul>
+                        <a href="{{ url_for('admin_login') }}" class="btn w-100 fw-semibold" style="background: #1F2937; color: #fff; border-radius: 8px;">
+                            <i class="fas fa-sign-in-alt me-2"></i>Admin Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-4 text-center" style="background: #ffffff; border-top: 1px solid #E5E7EB;">
+    <p class="text-muted mb-0" style="font-size: 0.92rem;">
+        <i class="fas fa-lock me-1"></i> Secure portal &nbsp;|&nbsp;
+        <i class="fas fa-university me-1"></i> Placement Cell &nbsp;|&nbsp;
+        <i class="fas fa-envelope me-1"></i> Contact your placement office for assistance
+    </p>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    const INDIGO  = '#4338CA';
+    const VIOLET  = '#6366F1';
+    const GRAPHITE= '#1F2937';
+    const GREEN   = '#16a34a';
+    const AMBER   = '#d97706';
+    const RED     = '#dc2626';
+    const LIGHT   = '#C7D2FE';
+
+    fetch('/api/analytics')
+        .then(r => r.json())
+        .then(data => {
+
+            const as = data.application_statuses;
+            new Chart(document.getElementById('appStatusChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(as),
+                    datasets: [{
+                        data: Object.values(as),
+                        backgroundColor: [AMBER, VIOLET, INDIGO, GREEN, RED],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '58%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, pointStyle: 'circle' }}
+                    }
+                }
+            });
+
+            /* ── 2. Drive Approvals ── */
+            const ds = data.drive_statuses;
+            new Chart(document.getElementById('driveStatusChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(ds),
+                    datasets: [{
+                        label: 'Drives',
+                        data: Object.values(ds),
+                        backgroundColor: [AMBER, GREEN, RED],
+                        borderRadius: 6,
+                        maxBarThickness: 50
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            /* ── 3. Top Hiring Companies ── */
+            const tc = data.top_companies;
+            new Chart(document.getElementById('companyChart'), {
+                type: 'bar',
+                data: {
+                    labels: tc.map(c => c.name),
+                    datasets: [{
+                        label: 'Active Drives',
+                        data: tc.map(c => c.drives),
+                        backgroundColor: VIOLET,
+                        borderRadius: 6,
+                        maxBarThickness: 28
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    scales: {
+                        x: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { display: false } },
+                        y: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        });
+</script>
+
+{% endblock %}
