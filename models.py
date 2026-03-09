@@ -19,8 +19,11 @@ class Admin(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
-        return f'<Admin {self.username}>'
+    def get_id(self):
+        return f"admin_{self.id}"
+
+    def __str__(self):
+        return self.username
 
 
 class Company(UserMixin, db.Model):
@@ -49,8 +52,11 @@ class Company(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
-        return f'<Company {self.name}>'
+    def get_id(self):
+        return f"company_{self.id}"
+
+    def __str__(self):
+        return self.name
 
 
 class Student(UserMixin, db.Model):
@@ -63,6 +69,7 @@ class Student(UserMixin, db.Model):
     contact = db.Column(db.String(15), nullable=False)
     skills = db.Column(db.Text)
     resume_filename = db.Column(db.String(200))
+    profile_pic = db.Column(db.String(200))
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
 
@@ -79,8 +86,11 @@ class Student(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
-        return f'<Student {self.name}>'
+    def get_id(self):
+        return f"student_{self.id}"
+
+    def __str__(self):
+        return self.name
 
 
 class PlacementDrive(db.Model):
@@ -97,13 +107,13 @@ class PlacementDrive(db.Model):
 
     applications = db.relationship(
         'Application',
-        backref='placement_drive',
+        backref='drive',
         lazy=True,
         cascade='all, delete-orphan'
     )
 
-    def __repr__(self):
-        return f'<PlacementDrive {self.job_title}>'
+    def __str__(self):
+        return self.job_title
 
 
 class Application(db.Model):
@@ -126,8 +136,8 @@ class Application(db.Model):
         db.UniqueConstraint('student_id', 'drive_id', name='unique_student_drive'),
     )
 
-    def __repr__(self):
-        return f'<Application {self.id}>'
+    def __str__(self):
+        return str(self.id)
 
 
 class Placement(db.Model):
@@ -143,5 +153,22 @@ class Placement(db.Model):
     placed_date = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     remarks = db.Column(db.Text)
 
-    def __repr__(self):
-        return f'<Placement {self.id}>'
+    def __str__(self):
+        return str(self.id)
+
+
+class Interview(db.Model):
+    __tablename__ = 'interviews'
+
+    id = db.Column(db.Integer, primary_key=True)
+    application_id = db.Column(db.Integer, db.ForeignKey('applications.id'), nullable=False, unique=True)
+    interview_date = db.Column(db.DateTime, nullable=False)
+    interview_link = db.Column(db.String(500))
+    venue = db.Column(db.String(300))
+    notes = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+
+    application = db.relationship('Application', backref=db.backref('interview', uselist=False))
+
+    def __str__(self):
+        return str(self.id)
